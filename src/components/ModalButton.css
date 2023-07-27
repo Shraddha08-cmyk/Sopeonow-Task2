@@ -1,0 +1,40 @@
+.launch-btn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.launch {
+    text-align: center;
+    border-radius: 10px;
+    width: 180px;
+    height: 50px;
+    background-color: lightcoral;
+    border: none;
+    color: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    color: #00252F;
+    font-size: small;
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 5px;
+}
