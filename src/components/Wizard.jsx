@@ -1,30 +1,34 @@
 import React from 'react';
 import { Stepper, Step, StepLabel, Button, Box, StepIcon, withStyles } from '@material-ui/core';
+import { PermContactCalendarOutlined } from '@material-ui/icons';
 
 const steps = ['Admission Request', 'Sent for IGL Approval', 'Received IGL Approval', 'Requested Bed Confirmation', 'Admitted', 'Accepted'];
+const doctors = ['Dr. Smith', 'Dr. Johnson']; // Add your doctor names here
 
 const Wizard = () => {
     const [activeStepCount, setActiveStepCount] = React.useState(0);
-    const [completionTimestamps, setCompletionTimestamps] = React.useState(Array(steps.length).fill(null));
+    const [timestamps, setTimestamps] = React.useState(Array(steps.length).fill(null));
 
     const handleStepNext = () => {
-        if (activeStepCount === steps.length - 1) {
-            completeStep(activeStepCount);
+        if (activeStepCount < steps.length - 1) {
+            const newTimestamps = [...timestamps];
+            newTimestamps[activeStepCount] = new Date().toLocaleString();
+            setTimestamps(newTimestamps);
         }
         setActiveStepCount((prevActiveStep) => prevActiveStep + 1);
     };
 
-    const completeStep = (stepIndex) => {
-        if (completionTimestamps[stepIndex] === null) {
-            const newTimestamps = [...completionTimestamps];
-            newTimestamps[stepIndex] = new Date();
-            setCompletionTimestamps(newTimestamps);
-        }
-    };
-
     const handleStepReset = () => {
         setActiveStepCount(0);
-        setCompletionTimestamps(Array(steps.length).fill(null));
+        setTimestamps(Array(steps.length).fill(null));
+    };
+
+    const getDoctorName = (stepIndex) => {
+        if (doctors.length > 0) {
+            const doctorIndex = stepIndex < doctors.length ? stepIndex : doctors.length - 1;
+            return doctors[doctorIndex];
+        }
+        return 'No doctor found';
     };
 
     return (
@@ -48,15 +52,16 @@ const Wizard = () => {
                     {steps.map((label, index) => {
                         const stepProps = {};
                         const labelProps = {};
-                        if (completionTimestamps[index] !== null) {
+                        if (timestamps[index] !== null) {
                             stepProps.completed = true;
                         }
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepLabel {...labelProps} StepIconComponent={ColorStepIcon}>
                                     {label}
-                                    {completionTimestamps[index] && (
-                                        <div>Completed on: {completionTimestamps[index].toLocaleString()}</div>
+                                    <div><PermContactCalendarOutlined style={{ color: "#3762A4" }} /> {getDoctorName(index)}</div>
+                                    {timestamps[index] && (
+                                        <div>Completed on: {timestamps[index]}</div>
                                     )}
                                 </StepLabel>
                             </Step>
